@@ -20,14 +20,14 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Construtor de Mensagem")
 @RestController
 @RequestMapping("/mensagem")
-public class EmprestimoResource {
+public class GeradorDeMensagemResource {
 
 	@Autowired
-	Service service;
+	private Service service;
 	
 	@ApiOperation(value = "Retorna mensagem customizada")
 
-	@RequestMapping(method = RequestMethod.POST, path = "/get")
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> simular(@RequestBody ComposicaoRequestDTO paylod) throws ParseException {
 				
 		return new ResponseEntity<>(service.geraObservacao(paylod.getComposicaoList() ,paylod.getMostrarValorNota()), HttpStatus.OK);
