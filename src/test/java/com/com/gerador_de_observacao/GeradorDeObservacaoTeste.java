@@ -18,10 +18,13 @@ public class GeradorDeObservacaoTeste {
 	
 	@Autowired
 	private WebApplicationContext context;
+	
 	@Autowired
 	private Service serive;
+	
 	@Autowired
 	private ObjectMapper objectMapper;
+	
 	private MockMvc mockMvc; 
 	
 	@Before
