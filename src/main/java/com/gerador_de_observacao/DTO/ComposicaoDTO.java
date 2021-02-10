@@ -5,6 +5,9 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.gerador_de_observacao.Constantes;
+import com.google.gson.Gson;
+
 public class ComposicaoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -154,6 +157,10 @@ public class ComposicaoDTO implements Serializable {
 		
 	}
 	
+	public static final ComposicaoDTO[] getListComposicaoDTO() {
+		Gson gson = new Gson();
+		return gson.fromJson(Constantes.INSUMOS_JSON, ComposicaoDTO[].class);	
+	}
 	
 	
 }

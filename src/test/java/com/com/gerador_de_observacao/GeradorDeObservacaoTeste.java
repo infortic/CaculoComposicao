@@ -13,14 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gerador_de_observacao.service.Service;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment =  SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GeradorDeObservacaoTeste {
 	
 	@Autowired
 	private WebApplicationContext context;
 	
-	@Autowired
-	private Service serive;
+//	@Autowired
+//	private Service serive;
 	
 	@Autowired
 	private ObjectMapper objectMapper;

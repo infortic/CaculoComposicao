@@ -2,14 +2,15 @@ package com.gerador_de_observacao.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.gerador_de_observacao.Constantes;
 import com.gerador_de_observacao.DTO.ComposicaoDTO;
-
-
-
+import com.gerador_de_observacao.DTO.ComposicaoFinalDTO;
+import com.gerador_de_observacao.DTO.ComposicaoRetornoDTO;
 
 /**
  * Classe responsável por gerar mensagem de nota fiscal de composição.
@@ -19,83 +20,52 @@ import com.gerador_de_observacao.DTO.ComposicaoDTO;
 public class Service {
 
 	String texto;
-
-	/**
+	
+	private static ComposicaoDTO[] composicaoDTOList = ComposicaoDTO.getListComposicaoDTO();
+	private static List<ComposicaoRetornoDTO> composicaoDTOArrayList = new ArrayList<ComposicaoRetornoDTO>(); 
+	private static List<Long> codigoComposisaoList = new ArrayList<Long>();
+	
+	
+	  /**
 	  * método respósavel por retornar a mensagem de opservação. 
-	  * @param notasComposicao   Lista de ComposicaoDTO.class
-	  * @param mostrarValorNota    Boolean necessário para o método descidir se a mensagme vai ser gerada com o valor total do item 
+	  * @param notasComposicao Lista de ComposicaoDTO.class
+	  * @param mostrarValorNota Boolean necessário para o método descidir se a mensagme vai ser gerada com o valor total do item 
 	  * @return String
-	  */
-	public String geraObservacao(List notasComposicao, Boolean mostrarValorNota) {
-		texto = "";
-		if(!notasComposicao.isEmpty()) {
-			return retornaCodigos(notasComposicao, mostrarValorNota) + ".";
-		}
-		return "";
-	}
-
-	
-	/**
-	  * método respósavel por construit a mensa mensagem de opservação. 
-	  * @param notasComposicao   Lista de ComposicaoDTO.class
-	  * @param mostrarValorNota    Boolean necessário para o método descidir se a mensagme vai ser gerada com o valor total do item 
-	  * @return String
-	  */
-	private String retornaCodigos(List notasComposicao, Boolean mostrarValorNota) {
-		if (notasComposicao.size() >= Constantes.DOIS) {
-			texto = Constantes.TEXTO_MULTIPLAS_NOTAS;
-		} else {
-			texto = Constantes.TEXTO_NOTA_UNICA;
-		}
-	
-		StringBuilder mensagemBuilder = new StringBuilder();
-		Iterator<ComposicaoDTO> iterator = notasComposicao.iterator();
-		
-		while(iterator.hasNext()) {
-			ComposicaoDTO composicao = iterator.next();
-			String separador = "";
-			if (mensagemBuilder.toString() == null || mensagemBuilder.toString().length() <= 0)
-				separador = "";
-			else if (iterator.hasNext())
-				separador = Constantes.VIRGULA;
-			else
-				separador = Constantes.E;
-			mensagemBuilder.append(this.retornaMensagemComOuSemValorTotalNota(separador, composicao, mostrarValorNota));
-		}
-
-		return texto + mensagemBuilder;
+	  **/
+	public static void  run() {
+		retornaListaComCalculoIdividualDaComposicao();
 	}
 	
-	/**
-	  * método que verifica se o valor total do item deve aparecer na mensagem. 
-	  * @param notasComposicao     Lista de ComposicaoDTO.class
-	  * @param mostrarValorNota    Boolean necessário para o método descidir se a mensagme vai ser gerada com o valor total do item 
-	  * @param separador           serador da itens da mensagem
-	  * @return String
-	  */
-	private String retornaMensagemComOuSemValorTotalNota(String separador, ComposicaoDTO composicao, Boolean mostrarValorNota) {
-		if(mostrarValorNota) {
-			return separador + composicao + this.calcularTotalItem(composicao);
-		}else {
-			return  separador + composicao;
-		}
+	private static void retornaListaComCalculoIdividualDaComposicao() {
+		for(ComposicaoDTO composicao : composicaoDTOList) {  
+			if(!composicao.getValorUnitario().isBlank() && !composicao.getQuantidadeComposicao().isBlank()) {
+					ComposicaoRetornoDTO composicaoRetornoDTO = ComposicaoRetornoDTO.getInstance();
+					composicaoRetornoDTO.setCodigoComposicao(composicao.getCodigoComposicao());
+					composicaoRetornoDTO.setCodigoItem(composicao.getCodigoItem());
+					composicaoRetornoDTO.setDescricaoComposicao(composicao.getDescricaoComposicao());
+					composicaoRetornoDTO.setQuantidadeComposicao(composicao.getQuantidadeComposicao());
+					composicaoRetornoDTO.setUnidadeComposicao(composicao.getUnidadeComposicao());
+					composicaoRetornoDTO.setValorUnitario(composicao.getValorUnitario());
+					BigDecimal valorUnitario = new BigDecimal(composicao.getValorUnitario().replace(",", "."));
+					BigDecimal quantidade = new BigDecimal(composicao.getQuantidadeComposicao().replace(",", "."));
+					composicaoRetornoDTO.setValorTotal(valorUnitario.multiply(quantidade));
+					composicaoDTOArrayList.add(composicaoRetornoDTO);
+			}
+			
+			List<Long> longs = new ArrayList<Long>();
+			longs.add(composicao.getCodigoComposicao());
+			for(Long l : longs) {
+				if(!codigoComposisaoList.contains(l))
+					codigoComposisaoList.add(l);
+			}
+		}   
 		
 	}
 	
-	
-	/**
-	  * método que calcula o total do item. 
-	  * @param composicao     	   objeto do tipo ComposicaoDTO.class
-	  * @return String
-	  */
-	private String calcularTotalItem(ComposicaoDTO composicao) {
-		if(!composicao.getValorUnitario().isBlank() && !composicao.getQuantidadeComposicao().isBlank()) {
-			BigDecimal valorUnitario = new BigDecimal(composicao.getValorUnitario().replace(",", "."));
-			BigDecimal quantidade = new BigDecimal(composicao.getQuantidadeComposicao().replace(",", "."));
-			BigDecimal totalComposicao = valorUnitario.multiply(quantidade).setScale(2, RoundingMode.HALF_EVEN);;
-			return " cujo valor é " + totalComposicao;	
+	public static void calculaTotalComposicao(Long codComposicao) {
+		for(ComposicaoRetornoDTO composicaoComTotalUnitario : composicaoDTOArrayList) {
+			
 		}
-		return "";
 	}
-
+	
 }
