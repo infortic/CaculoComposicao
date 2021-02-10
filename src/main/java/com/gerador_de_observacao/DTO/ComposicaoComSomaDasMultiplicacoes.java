@@ -2,7 +2,7 @@ package com.gerador_de_observacao.DTO;
 
 import java.math.BigDecimal;
 
-public class ComposicaoFinalDTO {
+public class ComposicaoComSomaDasMultiplicacoes {
 	
 	private Long codigoComposicao;
 	private String descricaoComposicao;
@@ -41,7 +41,7 @@ public class ComposicaoFinalDTO {
 		this.unidadeComposicao = unidadeComposicao;
 	}
 
-	public ComposicaoFinalDTO(Long codigoComposicao, String descricaoComposicao, 
+	public ComposicaoComSomaDasMultiplicacoes(Long codigoComposicao, String descricaoComposicao, 
 			String unidadeComposicao, BigDecimal valorTotal) {
 		super();
 		this.codigoComposicao = codigoComposicao;
@@ -50,11 +50,11 @@ public class ComposicaoFinalDTO {
 		this.valorTotal = valorTotal;
 	}
 
-	public ComposicaoFinalDTO() {
+	public ComposicaoComSomaDasMultiplicacoes() {
 		super();
 	}
 	
-	public static final  ComposicaoFinalDTO getInstance() {
-		return new ComposicaoFinalDTO();
+	public static final  ComposicaoComSomaDasMultiplicacoes getInstance() {
+		return new ComposicaoComSomaDasMultiplicacoes();
 	}
 }

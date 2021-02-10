@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import com.gerador_de_observacao.Constantes;
 import com.gerador_de_observacao.DTO.ComposicaoDTO;
-import com.gerador_de_observacao.DTO.ComposicaoFinalDTO;
+import com.gerador_de_observacao.DTO.ComposicaoComSomaDasMultiplicacoes;
 import com.gerador_de_observacao.DTO.ComposicaoComCalculoQuantidadeXvaLorDTO;
 
 /**
@@ -20,10 +20,10 @@ import com.gerador_de_observacao.DTO.ComposicaoComCalculoQuantidadeXvaLorDTO;
 @org.springframework.stereotype.Service
 public class Service {
 
-	String texto;
+	
 
 	private static ComposicaoDTO[] composicaoDTOList = ComposicaoDTO.getListComposicaoDTO();
-	private static List<ComposicaoComCalculoQuantidadeXvaLorDTO> composicaoDTOArrayList = new ArrayList<ComposicaoComCalculoQuantidadeXvaLorDTO>();
+	private static List<ComposicaoComCalculoQuantidadeXvaLorDTO> composicaoComCalculoQuantidadeXvaLorList= new ArrayList<ComposicaoComCalculoQuantidadeXvaLorDTO>();
 	private static List<Long> codigoComposisaoList = new ArrayList<Long>();
 
 	/**
@@ -33,7 +33,7 @@ public class Service {
 	 **/
 	public static void run() {
 		titulo();
-		multiplicacaoItensComposicao();
+		criaListaComposicaoCalculadaQuantidadeXvalor();
 		escreveMensagemNoConsole();
 	}
 	
@@ -44,20 +44,20 @@ public class Service {
 	 * 
 	 * @return void
 	 **/
-	private static void multiplicacaoItensComposicao() {
+	private static void criaListaComposicaoCalculadaQuantidadeXvalor() {
 		for (ComposicaoDTO composicao : composicaoDTOList) {
 			if (!composicao.getValorUnitario().isBlank() && !composicao.getQuantidadeComposicao().isBlank()) {
-				ComposicaoComCalculoQuantidadeXvaLorDTO ComposicaoComCalculoQuantidadeXvaLorDTO = com.gerador_de_observacao.DTO.ComposicaoComCalculoQuantidadeXvaLorDTO.getInstance();
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setCodigoComposicao(composicao.getCodigoComposicao());
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setCodigoItem(composicao.getCodigoItem());
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setDescricaoComposicao(composicao.getDescricaoComposicao());
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setQuantidadeComposicao(composicao.getQuantidadeComposicao());
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setUnidadeComposicao(composicao.getUnidadeComposicao());
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setValorUnitario(composicao.getValorUnitario());
+				ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComCalculoQuantidadeXvaLorDTO =  ComposicaoComCalculoQuantidadeXvaLorDTO.getInstance();
+				composicaoComCalculoQuantidadeXvaLorDTO.setCodigoComposicao(composicao.getCodigoComposicao());
+				composicaoComCalculoQuantidadeXvaLorDTO.setCodigoItem(composicao.getCodigoItem());
+				composicaoComCalculoQuantidadeXvaLorDTO.setDescricaoComposicao(composicao.getDescricaoComposicao());
+				composicaoComCalculoQuantidadeXvaLorDTO.setQuantidadeComposicao(composicao.getQuantidadeComposicao());
+				composicaoComCalculoQuantidadeXvaLorDTO.setUnidadeComposicao(composicao.getUnidadeComposicao());
+				composicaoComCalculoQuantidadeXvaLorDTO.setValorUnitario(composicao.getValorUnitario());
 				BigDecimal valorUnitario = new BigDecimal(composicao.getValorUnitario().replace(",", "."));
 				BigDecimal quantidade = new BigDecimal(composicao.getQuantidadeComposicao().replace(",", "."));
-				ComposicaoComCalculoQuantidadeXvaLorDTO.setValorTotal(valorUnitario.multiply(quantidade));
-				composicaoDTOArrayList.add(ComposicaoComCalculoQuantidadeXvaLorDTO);
+				composicaoComCalculoQuantidadeXvaLorDTO.setValorTotal(valorUnitario.multiply(quantidade));
+				composicaoComCalculoQuantidadeXvaLorList.add(composicaoComCalculoQuantidadeXvaLorDTO);
 			}
 
 			List<Long> longs = new ArrayList<Long>();
@@ -79,7 +79,7 @@ public class Service {
 	 **/
 	public static BigDecimal somaDasMultiplicacaos(Long codComposicao) {
 		BigDecimal total = new BigDecimal(0);
-		for (ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComTotalUnitario : composicaoDTOArrayList) {
+		for (ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComTotalUnitario : composicaoComCalculoQuantidadeXvaLorList) {
 			if (composicaoComTotalUnitario.getCodigoComposicao() == codComposicao) {
 				total = total.add(composicaoComTotalUnitario.getValorTotal());
 			}
@@ -95,20 +95,25 @@ public class Service {
 	public static void escreveMensagemNoConsole() {
 		for (Long codComposicaoLong : codigoComposisaoList) {
 			ComposicaoComCalculoQuantidadeXvaLorDTO ComposicaoComCalculoQuantidadeXvaLorDTO = getComposicaoPorCodigo(codComposicaoLong);
-			ComposicaoFinalDTO composicaoFinalDTO = ComposicaoFinalDTO.getInstance();
-			composicaoFinalDTO.setCodigoComposicao(ComposicaoComCalculoQuantidadeXvaLorDTO.getCodigoComposicao());
-			composicaoFinalDTO.setDescricaoComposicao(ComposicaoComCalculoQuantidadeXvaLorDTO.getDescricaoComposicao());
-			composicaoFinalDTO.setUnidadeComposicao(ComposicaoComCalculoQuantidadeXvaLorDTO.getUnidadeComposicao());
-			composicaoFinalDTO.setValorTotal(somaDasMultiplicacaos(codComposicaoLong));
+			ComposicaoComSomaDasMultiplicacoes composicaoComSomaDasMultiplicacoes = ComposicaoComSomaDasMultiplicacoes.getInstance();
+			composicaoComSomaDasMultiplicacoes.setCodigoComposicao(ComposicaoComCalculoQuantidadeXvaLorDTO.getCodigoComposicao());
+			composicaoComSomaDasMultiplicacoes.setDescricaoComposicao(ComposicaoComCalculoQuantidadeXvaLorDTO.getDescricaoComposicao());
+			composicaoComSomaDasMultiplicacoes.setUnidadeComposicao(ComposicaoComCalculoQuantidadeXvaLorDTO.getUnidadeComposicao());
+			composicaoComSomaDasMultiplicacoes.setValorTotal(somaDasMultiplicacaos(codComposicaoLong));
 
 			System.out.println(
-					composicaoFinalDTO.getCodigoComposicao() + " " + composicaoFinalDTO.getDescricaoComposicao() + " "
-							+ composicaoFinalDTO.getUnidadeComposicao() + " " + composicaoFinalDTO.getValorTotal());
+					composicaoComSomaDasMultiplicacoes.getCodigoComposicao() + " " + composicaoComSomaDasMultiplicacoes.getDescricaoComposicao() + " "
+							+ composicaoComSomaDasMultiplicacoes.getUnidadeComposicao() + " " + composicaoComSomaDasMultiplicacoes.getValorTotal());
 		}
 	}
 
+	/**
+	 * Metódo responsavel por selecionar uma composicao na lista atravez do codigo da composicão.
+	 * @param Long codComposicao
+	 * @return ComposicaoComCalculoQuantidadeXvaLorDTO
+	 **/
 	public static ComposicaoComCalculoQuantidadeXvaLorDTO getComposicaoPorCodigo(Long codComposicao) {
-		for (ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComTotalUnitario : composicaoDTOArrayList) {
+		for (ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComTotalUnitario : composicaoComCalculoQuantidadeXvaLorList) {
 			if (composicaoComTotalUnitario.getCodigoComposicao() == codComposicao) {
 				return composicaoComTotalUnitario;
 			}
