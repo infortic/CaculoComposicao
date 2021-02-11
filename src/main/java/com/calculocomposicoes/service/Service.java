@@ -66,13 +66,14 @@ public class Service {
 	 * Metódo responsavel por gerar lista com os codComposicao principais.
 	 * @return void.
 	 **/  
-	public static void geraListaComCodigoDasComposicoesPrincipais(ComposicaoDTO composicao) {
+	public static List<Long> geraListaComCodigoDasComposicoesPrincipais(ComposicaoDTO composicao) {
 		List<Long> codiComposicaoList = new ArrayList<Long>();
 		codiComposicaoList.add(composicao.getCodigoComposicao());
 		for (Long codComposicao : codiComposicaoList) {
 			if (!codigoComposisaoList.contains(codComposicao))
 				codigoComposisaoList.add(codComposicao);
 		}
+		return codigoComposisaoList;
 	}
 	
 	
