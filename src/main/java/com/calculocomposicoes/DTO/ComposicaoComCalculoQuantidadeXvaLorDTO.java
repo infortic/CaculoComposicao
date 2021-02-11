@@ -1,8 +1,9 @@
-package com.gerador_de_observacao.builds;
+package com.calculocomposicoes.DTO;
 
 import java.math.BigDecimal;
 
-public class ComposicaoComCalculoQuantidadeXvaLorBuilder {
+public class ComposicaoComCalculoQuantidadeXvaLorDTO {
+	
 	private Long codigoComposicao;
 	private String descricaoComposicao;
 	private String unidadeComposicao;
@@ -68,7 +69,7 @@ public class ComposicaoComCalculoQuantidadeXvaLorBuilder {
 		this.unidadeComposicao = unidadeComposicao;
 	}
 
-	public ComposicaoComCalculoQuantidadeXvaLorBuilder(Long codigoComposicao, String descricaoComposicao, String unidadeComposicao,
+	public ComposicaoComCalculoQuantidadeXvaLorDTO(Long codigoComposicao, String descricaoComposicao, String unidadeComposicao,
 			BigDecimal valorTotal, String valorUnitario, Long codigoItem, String quantidadeComposicao) {
 		super();
 		this.codigoComposicao = codigoComposicao;
@@ -80,16 +81,11 @@ public class ComposicaoComCalculoQuantidadeXvaLorBuilder {
 		this.codigoItem = codigoItem;
 	}
 
-	public ComposicaoComCalculoQuantidadeXvaLorBuilder() {
+	public ComposicaoComCalculoQuantidadeXvaLorDTO() {
 		super();
 	}
 	
-	public static final  ComposicaoComCalculoQuantidadeXvaLorBuilder getInstance() {
-		return new ComposicaoComCalculoQuantidadeXvaLorBuilder();
-	}
-	
-	public ComposicaoComCalculoQuantidadeXvaLorBuilder codigoComposicao(Long codigoComposicao) {
-		this.codigoComposicao = codigoComposicao;
-		return this;
+	public static final  ComposicaoComCalculoQuantidadeXvaLorDTO getInstance() {
+		return new ComposicaoComCalculoQuantidadeXvaLorDTO();
 	}
 }

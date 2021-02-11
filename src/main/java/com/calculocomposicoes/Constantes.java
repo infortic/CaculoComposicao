@@ -1,4 +1,4 @@
-package com.gerador_de_observacao;
+package com.calculocomposicoes;
 
 public class Constantes {	
 	public static final String INSUMOS_JSON = "[\r\n"

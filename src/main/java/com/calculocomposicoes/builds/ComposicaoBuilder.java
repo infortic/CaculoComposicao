@@ -1,6 +1,6 @@
-package com.gerador_de_observacao.builds;
+package com.calculocomposicoes.builds;
 
-import com.gerador_de_observacao.DTO.ComposicaoDTO;
+import com.calculocomposicoes.DTO.ComposicaoDTO;
 
 public class ComposicaoBuilder{
 	 

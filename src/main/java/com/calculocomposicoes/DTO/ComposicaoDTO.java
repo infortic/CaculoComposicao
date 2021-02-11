@@ -1,11 +1,11 @@
-package com.gerador_de_observacao.DTO;
+package com.calculocomposicoes.DTO;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import com.gerador_de_observacao.Constantes;
+import com.calculocomposicoes.Constantes;
 import com.google.gson.Gson;
 
 public class ComposicaoDTO implements Serializable {

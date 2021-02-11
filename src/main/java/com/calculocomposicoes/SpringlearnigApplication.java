@@ -1,9 +1,9 @@
-package com.gerador_de_observacao;
+package com.calculocomposicoes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.gerador_de_observacao.service.Service;
+import com.calculocomposicoes.service.Service;
 
 
 @SpringBootApplication
