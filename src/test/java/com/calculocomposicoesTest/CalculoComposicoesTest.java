@@ -1,9 +1,10 @@
-package com.calculocomposicoes;
+package com.calculocomposicoesTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,20 +18,22 @@ import com.calculocomposicoes.service.Service;
 @RunWith(SpringRunner.class)
 public class CalculoComposicoesTest {
 	
-	private static final Long CODIGO_COMPOSICAO_TESTE = new Long(88830);
+	private static final Long CODIGO_COMPOSICAO_TESTE = new Long(87286);
 	private static ComposicaoDTO[] composicaoDTOList = ComposicaoDTO.getListComposicaoDTO();
 	
 	
 	@Test
 	public void testeSomaDasMultiplicacoes() {
 		BigDecimal resultado = Service.somaDasMultiplicacaos(CODIGO_COMPOSICAO_TESTE);
+		Assertions.assertThat(resultado != null);
 	}
 	
 
 	@Test
 	public void calculoValorunitarioQuantidadeXvalorTest() {
-		ComposicaoComCalculoQuantidadeXvaLorDTO resultado = Service.getComposicaoPorCodigo(CODIGO_COMPOSICAO_TESTE);
-		
+		ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComCalculoQuantidadeXvaLorDTO = Service.getComposicaoPorCodigo(CODIGO_COMPOSICAO_TESTE);
+		Assertions.assertThat(composicaoComCalculoQuantidadeXvaLorDTO.getCodigoComposicao() != null);
+		Assertions.assertThat(!composicaoComCalculoQuantidadeXvaLorDTO.getDescricaoComposicao().isBlank());
 	}
 	
 
@@ -39,9 +42,9 @@ public class CalculoComposicoesTest {
 		ComposicaoDTO composicao = ComposicaoBuilder.getInstance()
 				.codigoComposicao(CODIGO_COMPOSICAO_TESTE)
 				.build();
-	List<Long> longList = new ArrayList<Long>();
-	longList.addAll(Service.geraListaComCodigoDasComposicoesPrincipais(composicao));
-		
+		List<Long> longList = new ArrayList<Long>();
+		longList.addAll(Service.geraListaComCodigoDasComposicoesPrincipais(composicao));
+		Assertions.assertThat(longList.size() != 0);	
 	}
 	
 }

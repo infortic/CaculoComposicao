@@ -85,7 +85,7 @@ public class Service {
 	public static BigDecimal somaDasMultiplicacaos(Long codComposicao) {
 		BigDecimal total = new BigDecimal(0);
 		for (ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComTotalUnitario : composicaoComCalculoQuantidadeXvaLorList) {
-			if (composicaoComTotalUnitario.getCodigoComposicao() == codComposicao) {
+			if (composicaoComTotalUnitario.getCodigoComposicao().equals(codComposicao)) {
 				total = total.add(composicaoComTotalUnitario.getValorTotal());
 			}
 		}
@@ -125,8 +125,10 @@ public class Service {
 	 * @return ComposicaoComCalculoQuantidadeXvaLorDTO
 	 **/
 	public static ComposicaoComCalculoQuantidadeXvaLorDTO getComposicaoPorCodigo(Long codComposicao) {
+		criaListaComposicaoCalculadaQuantidadeXvalor();
 		for (ComposicaoComCalculoQuantidadeXvaLorDTO composicaoComTotalUnitario : composicaoComCalculoQuantidadeXvaLorList) {
-			if (composicaoComTotalUnitario.getCodigoComposicao() == codComposicao) {
+			System.out.println(codComposicao + "    " + composicaoComTotalUnitario.getCodigoComposicao());
+			if (composicaoComTotalUnitario.getCodigoComposicao().equals(codComposicao)) {
 				return composicaoComTotalUnitario;
 			}
 		}
