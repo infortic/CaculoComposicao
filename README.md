@@ -58,3 +58,20 @@ AF_06/2014 M3 289,97</br>
 TRIFÁSICO POTÊNCIA DE 2 CV, SEM CARREGADOR - CHP DIURNO. AF_10/2014 CHP 1,25</br>
 88831 BETONEIRA CAPACIDADE NOMINAL DE 400 L, CAPACIDADE DE MISTURA 280 L, MOTOR ELÉTRICO</br>
 TRIFÁSICO POTÊNCIA DE 2 CV, SEM CARREGADOR - CHI DIURNO. AF_10/2014 CHI 0,22</br>
+
+
+# Buildar e executar a aplicação
+Dentro do diretório root da aplicação executar os passos abaixo.</br></br>
+
+1 - Para buildar a aplicação: mvn clean install #buildando o pacote da aplicação</br></br>
+
+2 - linha de código a cima criara uma pasta chamada target com a versão final da aplicação.</br></br>
+
+3 - Para executar a aplicação:</br></br>
+
+java -jar SimuladorFinanciamento-0.0.1.jar
+</br></br>
+A partir deste ponto se tudo ocorrer corretamente a saída esperada ja ocorreu no console.
+
+# Executando Testes Automatizados
+mvn test #Dentro do pacote da aplicação para executar os testes automatizados
