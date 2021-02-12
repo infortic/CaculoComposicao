@@ -69,7 +69,7 @@ Dentro do diretório root da aplicação executar os passos abaixo.</br></br>
 
 3 - Para executar a aplicação:</br></br>
 
-java -jar SimuladorFinanciamento-0.0.1.jar
+java -jar CalculoComposicoes-0.0.1.jar
 </br></br>
 A partir deste ponto se tudo ocorrer corretamente a saída esperada ja ocorreu no console.
 
